@@ -20,8 +20,8 @@ class SecurityController extends AbstractController
             'error' => $error,
             'last_username' => $lastUsername,
             'csrf_token_intention' => 'authenticate',
-            'forgot_password_enabled' => true,
-            'forgot_password_path' => $this->generateUrl('app_forgot_password_request'),
+//            'forgot_password_enabled' => true,
+//            'forgot_password_path' => $this->generateUrl('app_forgot_password_request'),
             'remember_me_enabled' => true,
         ]);
     }
