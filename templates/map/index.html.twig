@@ -1,0 +1,25 @@
+{% dump %}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ game.name }} map{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('map') }}
+{% endblock %}
+
+{% block javascripts ~%}
+    <script>
+        window.games = {{ games|json('game:read') }};
+        window.mapConfig = {{ game.gameConfig|json('config:read') }};
+        window.baseLayers = {{ baseLayers|json('layer:read') }};
+        window.categories = {{ categories|json('category:read') }};
+        window.categoryTree = {{ categoryTree|json('category:read:tree') }};
+        window.markers = {{ features|json_encode|raw }};
+    </script>
+
+    {{ encore_entry_script_tags('map') }}
+{% endblock %}
+
+{% block body %}
+    <div id="map"></div>
+{% endblock %}

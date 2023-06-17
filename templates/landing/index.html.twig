@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LandingController!{% endblock %}
+
+{% block body %}
+<style>
+    /*.example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }*/
+    /*.example-wrapper code { background: #F5F5F5; padding: 2px 6px; }*/
+</style>
+
+<div class="example-wrapper">
+    <ul>
+        {% for game in games %}
+        <li><a href="{{ path('app_map', {'slug': game.slug}) }}">{{ game.name }}</a></li>
+        {% endfor %}
+        {% if app.user %}
+        <li><a href="{{ path('admin') }}">Admin</a></li>
+        {% else %}
+{#        <li><a href="{{ path('app_login') }}">Login</a></li>#}
+{#        <li><a href="{{ path('app_register') }}">Register</a></li>#}
+        {% endif %}
+    </ul>
+
+</div>
+{% endblock %}
