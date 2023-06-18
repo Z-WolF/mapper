@@ -210,11 +210,6 @@ class FeatureCategory
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->getName() ?? '';
-    }
-
     public function getGame(): ?Game
     {
         return $this->game;
@@ -267,5 +262,10 @@ class FeatureCategory
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s (%s)', $this->getName(), $this->getGame()->getShortName());
     }
 }

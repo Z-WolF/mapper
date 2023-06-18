@@ -120,4 +120,9 @@ class Feature
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return sprintf('%s (id: %s)', $this->getName(), $this->getId());
+    }
 }
