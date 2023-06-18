@@ -31,7 +31,6 @@ class UserCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityPermission('ROLE_ADMIN')
-            ->showEntityActionsInlined()
             ;
     }
 

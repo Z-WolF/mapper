@@ -138,11 +138,6 @@ class BaseLayer
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->getName();
-    }
-
     /**
      * @return Collection<int, Feature>
      */
@@ -171,5 +166,10 @@ class BaseLayer
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s (%s)', $this->getName(), $this->getGame()->getShortName());
     }
 }

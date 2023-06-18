@@ -6,11 +6,11 @@ use App\Entity\FeatureCategory;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ColorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -31,18 +31,9 @@ class FeatureCategoryCrudController extends AbstractCrudController
             ;
     }
 
-    public function configureCrud(Crud $crud): Crud
-    {
-        return $crud
-            ->showEntityActionsInlined()
-//            ->setDefaultSort(['id' => 'ASC'])
-            ;
-    }
-
     public function configureFields(string $pageName): iterable
     {
         return [
-//            IdField::new('id'),
             TextField::new('name'),
             AssociationField::new('parent'),
             AssociationField::new('game'),
@@ -54,4 +45,10 @@ class FeatureCategoryCrudController extends AbstractCrudController
         ];
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('game')
+            ;
+    }
 }
