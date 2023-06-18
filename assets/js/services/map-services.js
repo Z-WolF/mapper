@@ -7,7 +7,7 @@ function arrayIntoMap(arr) {
 }
 
 export function fetchMapConfig() {
-    return window.mapConfig;
+    return window.gameConfig;
 }
 
 export function fetchMapBaseLayers() {
@@ -15,7 +15,7 @@ export function fetchMapBaseLayers() {
 }
 
 export function fetchMarkers() {
-    return window.markers;
+    return window.features;
 }
 
 export function fetchCategories() {
@@ -24,8 +24,4 @@ export function fetchCategories() {
 
 export function fetchTree() {
     return arrayIntoMap(window.categoryTree);
-}
-
-export function fetchLabels() {
-    return window.labels;
 }
