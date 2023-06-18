@@ -23,6 +23,10 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\Service\StaticMapDataGenerator:
+        arguments:
+            $publicPath: '%env(STATIC_MAP_DATA_PATH)%'
+
     gedmo.listener.tree:
         class: Gedmo\Tree\TreeListener
         tags:
