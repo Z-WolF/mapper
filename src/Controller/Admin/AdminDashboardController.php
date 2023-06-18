@@ -18,14 +18,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminDashboardController extends AbstractDashboardController
 {
-    public function __construct(private readonly GameRepository $gr)
+    public function __construct(private readonly GameRepository $gr, private readonly StaticMapDataGenerator $smdg)
     {
     }
 
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return $this->render('dashboard/admin.html.twig');
+        return $this->render('dashboard/admin.html.twig', [
+            'gamefiles' => $this->smdg->getFiles()
+        ]);
     }
 
     public function configureDashboard(): Dashboard

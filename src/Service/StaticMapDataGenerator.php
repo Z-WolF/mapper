@@ -57,14 +57,14 @@ class StaticMapDataGenerator
         return $gjfs;
     }
 
-    public function getFiles(string $filenamePrefix, ?Game $game = null): Finder
+    public function getFiles(?string $filenamePrefix = null, ?Game $game = null): Finder
     {
         $rootDir = sprintf('%s/public%s', $this->bag->get('kernel.project_dir'), $this->publicPath);
         $buildDir = $rootDir . '/builds';
         if(!is_null($game) && self::GAMES !== $filenamePrefix){
             $filenamePrefix .= '-' . $game->getShortName();
         }
-        return $this->findBuildFiles($buildDir, $filenamePrefix);
+        return $this->findBuildFiles($buildDir, $filenamePrefix)->sortByName()->reverseSorting();
     }
 
     public function generateGames(): void
@@ -144,7 +144,8 @@ class StaticMapDataGenerator
         $fs = new Filesystem();
         $rootDir = sprintf('%s/public%s', $this->bag->get('kernel.project_dir'), $this->publicPath);
         $buildDir = $rootDir . '/builds';
-        $filename = sprintf('%s-%s.js', $filenamePrefix, (new \DateTime())->format('YmdHis'));
+        $buildDate = (new \DateTimeImmutable())->format('YmdHis');
+        $filename = sprintf('%s-%s.js', $filenamePrefix, $buildDate);
         $fullPath = $buildDir . '/' . $filename;
 
         !$fs->exists($rootDir) && $fs->mkdir($rootDir);
@@ -165,10 +166,15 @@ class StaticMapDataGenerator
         $fs->symlink($fs->makePathRelative($buildDir, $rootDir) . $filename, $symlink);
     }
 
-    private function findBuildFiles($dir, $filenamePrefix): Finder
+    private function findBuildFiles(string $dir, ?string $filenamePrefix = null): Finder
     {
         $finder = new Finder();
-        $finder->files()->in($dir)->name(sprintf('%s-*.js', $filenamePrefix));
+        $finder->files()->in($dir);
+        if(!is_null($filenamePrefix)){
+            $finder->name(sprintf('%s-*.js', $filenamePrefix));
+        } else {
+            $finder->name('*.js');
+        }
         return $finder;
     }
 }

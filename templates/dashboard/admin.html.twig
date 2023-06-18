@@ -2,4 +2,12 @@
 
 {% block main %}
     <a href="{{ path('admin_static') }}" class="btn btn-primary">Generate all static files for map data.</a>
+    <hr>
+    <ul>
+        {% for file in gamefiles %}
+            <li><a href="/static/builds/{{ file.filename }}" target="_blank">{{ file.filename }}</a></li>
+        {% else %}
+            No files found.
+        {% endfor %}
+    </ul>
 {% endblock %}
