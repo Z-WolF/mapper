@@ -3,9 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\BaseLayer;
+use App\Entity\Feature;
 use App\Entity\FeatureCategory;
 use App\Entity\Game;
 use App\Entity\User;
+use App\Repository\GameRepository;
+use App\Service\StaticMapDataGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -14,26 +18,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminDashboardController extends AbstractDashboardController
 {
+    public function __construct(private readonly GameRepository $gr)
+    {
+    }
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-//        return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-         return $this->render('admin/blank.html.twig');
+        return $this->render('dashboard/admin.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -45,11 +37,41 @@ class AdminDashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Home', 'fa fa-home');
+        yield MenuItem::linkToUrl('Back to Landing', 'fa fa-arrow-left', '/');
+        yield MenuItem::section('Maps');
+        /** @var Game $game */
+        foreach ($this->gr->findByEnabled(true) as $game) {
+            yield MenuItem::linkToUrl($game, 'fa fa-map', $this->generateUrl('app_map', ['slug' => $game->getSlug()]));
+        }
+        yield MenuItem::section('CRUDs');
         yield MenuItem::linkToCrud('Games', 'fa fa-gamepad', Game::class);
         yield MenuItem::linkToCrud('Base Layers', 'fa fa-layer-group', BaseLayer::class);
         yield MenuItem::linkToCrud('Feature Categories', 'fa fa-map-location-dot', FeatureCategory::class);
+        yield MenuItem::linkToCrud('Features', 'fa fa-location-dot', Feature::class);
         yield MenuItem::section('Management');
         yield MenuItem::linkToCrud('Users', 'fa fa-users', User::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+    }
+
+    public function configureCrud(): Crud
+    {
+        return Crud::new()
+            ->showEntityActionsInlined()
+        ;
+    }
+
+    #[Route('/admin/static-files', name: 'admin_static')]
+    public function generateAllFiles(StaticMapDataGenerator $smdg, GameRepository $gr): Response
+    {
+        $smdg->generateGames();
+        $games = $gr->findByEnabled(true);
+        foreach ($games as $game) {
+            $smdg->generateConfig($game);
+            $smdg->generateBaseLayers($game);
+            $smdg->generateCategories($game);
+            $smdg->generateCategoryTree($game);
+            $smdg->generateFeatures($game);
+        }
+        return $this->redirectToRoute('admin');
     }
 }

@@ -7,14 +7,11 @@
 {% endblock %}
 
 {% block javascripts ~%}
-    <script>
-        window.games = {{ games|json('game:read') }};
-        window.mapConfig = {{ game.gameConfig|json('config:read') }};
-        window.baseLayers = {{ baseLayers|json('layer:read') }};
-        window.categories = {{ categories|json('category:read') }};
-        window.categoryTree = {{ categoryTree|json('category:read:tree') }};
-        window.markers = {{ features|json_encode|raw }};
-    </script>
+    <script src="/static/GameConfig-{{ game.shortName }}.js"></script>
+    <script src="/static/BaseLayers-{{ game.shortName }}.js"></script>
+    <script src="/static/Categories-{{ game.shortName }}.js"></script>
+    <script src="/static/CategoryTree-{{ game.shortName }}.js"></script>
+    <script src="/static/Features-{{ game.shortName }}.js"></script>
 
     {{ encore_entry_script_tags('map') }}
 {% endblock %}

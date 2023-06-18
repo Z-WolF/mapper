@@ -22,8 +22,9 @@ class GameCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud->showEntityActionsInlined()
-            ->setDefaultSort(['position' => 'ASC']);
+        return $crud
+            ->setDefaultSort(['position' => 'ASC'])
+        ;
     }
 
     public function configureFields(string $pageName): iterable

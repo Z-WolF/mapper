@@ -166,7 +166,6 @@ export default {
             this.$refs.zumap.leafletObject.on('zoomend', this.handleZoomEnd);
             this.handleZoomEnd();
         },
-
     },
 };
 </script>
