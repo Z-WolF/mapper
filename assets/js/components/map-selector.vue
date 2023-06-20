@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <button
+    <div class="row">
+        <div
             v-for="[id, layer] in baseLayers"
             :key="id"
-            class="btn btn-primary"
-            @click="$emit('change-baselayer', layer.id)"
+            class="col text-center"
         >
-            {{ layer.name }}
-        </button>
+            <button class="btn btn-primary" @click="$emit('change-baselayer', layer.id)">{{ layer.name }}</button>
+        </div>
+        <hr>
     </div>
 </template>
 

@@ -1,14 +1,14 @@
 <template>
-    <div>
-        <div
+    <div class="row">
+        <template
             v-for="node in categoryTree"
-            :key="node.id"
-            class="row"
         >
             <category-button
                 :id="node.id"
                 :name="categories.get(node.id).name"
                 :selected="0 === selected.size || selected.has(node.id)"
+                :icon="categories.get(node.id).iconClass"
+                :color="categories.get(node.id).color"
                 @toggle-category="$emit('toggle-category', $event)"
             />
             <category-button
@@ -17,9 +17,11 @@
                 :key="child.id"
                 :name="categories.get(child.id).name"
                 :selected="0 === selected.size || selected.has(child.id)"
+                :icon="categories.get(child.id).iconClass"
+                :color="categories.get(child.id).color"
                 @toggle-category="$emit('toggle-category', $event)"
             />
-        </div>
+        </template>
     </div>
 </template>
 

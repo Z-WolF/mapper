@@ -25,15 +25,16 @@
                         return category.label
                             ? L.marker(latlng, {
                                 icon: L.divIcon({
-                                    className: 'text-center text-nowrap w-auto label',
+                                    className: 'text-center text-nowrap w-auto label feature',
                                     html: '<div>' + feature.properties.name + '</div>',
                                 })
                             })
-                            : L.circleMarker(latlng, {
-                                radius: 8,
-                                color: category.color,
-                                fillOpacity: category.label ? 0 : 1,
-                                fill: category.label ? 0 : 1,
+                            : L.marker(latlng, {
+                                title: feature.properties.name,
+                                icon:L.divIcon({
+                                    className: 'feature',
+                                    html: `<div class=&quot;circle circleMap-small&quot; style=&quot;background-color: ${category.color}; border-color: ${category.color}&quot;><span class=&quot;${category.iconClass ?? ''}&quot;></span></div>`,
+                                }),
                             });
                     }
                 }"
@@ -180,16 +181,62 @@ export default {
     }
 
     .label div{
-        display:inline-block;
-        transform:translate(-50%, -50%);
         color: #f8efae;
         text-shadow: #977f41 0 0 3px,#977f41 0 0 3px,#977f41 0 0 3px,#977f41 0 0 3px,#977f41 0 0 3px,#977f41 0 0 3px;
-        background-color: transparent;
         box-shadow: none;
-        border: 0;
         font-size: 24px;
         text-align: center;
         line-height: .7;
+    }
+
+    .feature div{
+        display:inline-block;
+        transform:translate(0,-50%);
+        background-color: transparent;
+        border: 0;
+    }
+
+    .circle {
+        width: 64px;
+        height: 64px;
+        border-radius: 64px;
+        line-height: 64px;
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        color: white;
+    }
+
+    .circleMap {
+        width: 23px !important;
+        height: 23px !important;
+        line-height: 22px !important;
+    }
+
+    .icnText {
+        font-size: 16px;
+    }
+
+    .circleMap-medium {
+        width: 23px !important;
+        height: 23px !important;
+        line-height: 22px !important;
+        box-shadow: rgba(0,0,0,.25) 0 2px 6px !important;
+    }
+
+    .icnText-medium {
+        font-size: 15px;
+    }
+
+    .circleMap-small {
+        width: 16px !important;
+        height: 16px !important;
+        line-height: 14px !important;
+        box-shadow: rgba(0,0,0,.25) 0 2px 6px !important;
+    }
+
+    .icnText-small {
+        font-size: 10px;
     }
 }
 </style>

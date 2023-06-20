@@ -65,6 +65,7 @@ class FeatureCategory
 
     #[ORM\ManyToOne(inversedBy: 'featureCategories')]
     #[ORM\JoinColumn(nullable: false)]
+    #[SortableGroup]
     private ?Game $game = null;
 
     #[ORM\Column(nullable: true)]
@@ -72,6 +73,10 @@ class FeatureCategory
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Feature::class, orphanRemoval: true)]
     private Collection $features;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('category:read')]
+    private ?string $iconClass = null;
 
     public function __construct()
     {
@@ -267,5 +272,17 @@ class FeatureCategory
     public function __toString(): string
     {
         return sprintf('%s (%s)', $this->getName(), $this->getGame()->getShortName());
+    }
+
+    public function getIconClass(): ?string
+    {
+        return $this->iconClass;
+    }
+
+    public function setIconClass(?string $iconClass): static
+    {
+        $this->iconClass = $iconClass;
+
+        return $this;
     }
 }

@@ -35,13 +35,15 @@ class FeatureCategoryCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name'),
-            AssociationField::new('parent'),
+            AssociationField::new('parent')->setRequired(false),
             AssociationField::new('game'),
             IntegerField::new('minZoom'),
             IntegerField::new('maxZoom'),
             ColorField::new('color'),
+            TextField::new('iconClass'),
             BooleanField::new('enabled')->renderAsSwitch(false),
             BooleanField::new('label')->renderAsSwitch(false),
+            IntegerField::new('position')
         ];
     }
 
@@ -49,6 +51,7 @@ class FeatureCategoryCrudController extends AbstractCrudController
     {
         return $filters
             ->add('game')
+            ->add('parent')
             ;
     }
 }

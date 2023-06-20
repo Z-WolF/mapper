@@ -2,7 +2,7 @@
     <l-control
         position="topleft"
     >
-        <div class="card">
+        <div class="card" data-bs-theme="dark">
             <div
                 v-show="!collapsed"
                 class="card-header row"
@@ -46,6 +46,7 @@
                 :class="[$style.component, 'card-body', 'overflow-scroll']"
             >
                 <map-selector
+                    v-show="1 < baseLayers.size"
                     :base-layers="baseLayers"
                     @change-baselayer="$emit('change-baselayer', $event)"
                 />

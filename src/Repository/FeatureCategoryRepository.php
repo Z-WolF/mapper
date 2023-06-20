@@ -47,6 +47,7 @@ class FeatureCategoryRepository extends ServiceEntityRepository
             ->join('fc.children', 'fcc')
             ->andWhere('fc.game = :game')
             ->andWhere('fc.enabled = true')
+            ->andWhere('fcc.enabled = true')
             ->andWhere('fc.parent IS NULL')
             ->addOrderBy('fc.position')
             ->addOrderBy('fcc.position')
