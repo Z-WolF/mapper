@@ -26,6 +26,8 @@ class StaticMapDataGenerator
     const CATEGORY_TREE = 'CategoryTree';
     const FEATURES = 'Features';
 
+    private ?string $dateTimeString = null;
+
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly ParameterBagInterface $bag,
@@ -33,6 +35,11 @@ class StaticMapDataGenerator
         private readonly string $publicPath
     )
     {
+    }
+
+    public function setDateTimeString(?string $dateTimeString)
+    {
+        $this->dateTimeString = $dateTimeString;
     }
 
     /**
@@ -144,7 +151,7 @@ class StaticMapDataGenerator
         $fs = new Filesystem();
         $rootDir = sprintf('%s/public%s', $this->bag->get('kernel.project_dir'), $this->publicPath);
         $buildDir = $rootDir . '/builds';
-        $buildDate = (new \DateTimeImmutable())->format('YmdHis');
+        $buildDate = $this->dateTimeString ?? (new \DateTimeImmutable())->format('YmdHis');
         $filename = sprintf('%s-%s.js', $filenamePrefix, $buildDate);
         $fullPath = $buildDir . '/' . $filename;
 

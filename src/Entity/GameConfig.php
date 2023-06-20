@@ -61,6 +61,9 @@ class GameConfig
     #[Groups('config:read')]
     private ?float $offsetY = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $currentAssetDateTimeString = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -194,6 +197,18 @@ class GameConfig
     public function setOffsetY(?float $offsetY): static
     {
         $this->offsetY = $offsetY;
+
+        return $this;
+    }
+
+    public function getCurrentAssetDateTimeString(): ?string
+    {
+        return $this->currentAssetDateTimeString;
+    }
+
+    public function setCurrentAssetDateTimeString(?string $currentAssetDateTimeString): static
+    {
+        $this->currentAssetDateTimeString = $currentAssetDateTimeString;
 
         return $this;
     }

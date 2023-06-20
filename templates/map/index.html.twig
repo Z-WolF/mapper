@@ -7,11 +7,11 @@
 {% endblock %}
 
 {% block javascripts ~%}
-    <script src="/static/GameConfig-{{ game.shortName }}.js"></script>
-    <script src="/static/BaseLayers-{{ game.shortName }}.js"></script>
-    <script src="/static/Categories-{{ game.shortName }}.js"></script>
-    <script src="/static/CategoryTree-{{ game.shortName }}.js"></script>
-    <script src="/static/Features-{{ game.shortName }}.js"></script>
+    <script src="/static/GameConfig-{{ game.shortName }}.js?{{ game.gameConfig.currentAssetDateTimeString }}"></script>
+    <script src="/static/BaseLayers-{{ game.shortName }}.js?{{ game.gameConfig.currentAssetDateTimeString }}"></script>
+    <script src="/static/Categories-{{ game.shortName }}.js?{{ game.gameConfig.currentAssetDateTimeString }}"></script>
+    <script src="/static/CategoryTree-{{ game.shortName }}.js?{{ game.gameConfig.currentAssetDateTimeString }}"></script>
+    <script src="/static/Features-{{ game.shortName }}.js?{{ game.gameConfig.currentAssetDateTimeString }}"></script>
 
     {{ encore_entry_script_tags('map') }}
 {% endblock %}

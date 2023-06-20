@@ -65,6 +65,8 @@ class AdminDashboardController extends AbstractDashboardController
     #[Route('/admin/static-files', name: 'admin_static')]
     public function generateAllFiles(StaticMapDataGenerator $smdg, GameRepository $gr): Response
     {
+        $dts = (new \DateTimeImmutable())->format('YmdHis');
+        $smdg->setDateTimeString($dts);
         $smdg->generateGames();
         $games = $gr->findByEnabled(true);
         foreach ($games as $game) {
@@ -73,6 +75,8 @@ class AdminDashboardController extends AbstractDashboardController
             $smdg->generateCategories($game);
             $smdg->generateCategoryTree($game);
             $smdg->generateFeatures($game);
+            $game->getGameConfig()->setCurrentAssetDateTimeString($dts);
+            $gr->save($game, true);
         }
         return $this->redirectToRoute('admin');
     }
