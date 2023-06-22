@@ -63,6 +63,7 @@ Encore
     .enableSassLoader()
     .enableVueLoader(() => {}, {
         version: 3,
+        runtimeCompilerBuild: false,
     })
 
     // gives better module CSS naming in dev
