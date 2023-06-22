@@ -6,16 +6,8 @@ function arrayIntoMap(arr) {
     return map;
 }
 
-export function fetchMapConfig() {
-    return window.gameConfig;
-}
-
 export function fetchMapBaseLayers() {
     return arrayIntoMap(window.baseLayers);
-}
-
-export function fetchMarkers() {
-    return window.features;
 }
 
 export function fetchCategories() {

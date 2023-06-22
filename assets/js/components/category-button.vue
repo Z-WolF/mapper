@@ -3,18 +3,21 @@
         <a
             href="#"
             :class="[selected ? 'toggledOn' : 'toggledOff']"
-            @click="$emit('toggle-category', id)"
+            @click="toggleCategory(id)"
         >
             <span
-                :class="['icon-background', 'circle', 'category-icon', icon]"
+                :class="['icon-background', 'circle', 'category-icon', categories.get(id).iconClass]"
                 :style="`background-color: ${color}; border-color: ${color}`"
             />
-            <p class="label">{{ name }}</p>
+            <p class="label">{{ categories.get(id).name }}</p>
         </a>
     </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia';
+import { useMapStore } from '@/Store/MapStore';
+
 export default {
     name: 'CategoryButton',
     props: {
@@ -22,22 +25,18 @@ export default {
             type: Number,
             required: true,
         },
-        name: {
-            type: String,
-            required: true,
+    },
+    computed: {
+        selected() {
+            return this.selectedCategories.size === 0 || this.selectedCategories.has(this.id);
         },
-        selected: {
-            type: Boolean,
-            required: true,
+        color() {
+            return this.categories.get(this.id).color;
         },
-        icon: {
-            type: String,
-            required: true,
-        },
-        color: {
-            type: String,
-            required: true,
-        },
+        ...mapState(useMapStore, ['categories', 'selectedCategories']),
+    },
+    methods: {
+        ...mapActions(useMapStore, ['toggleCategory']),
     },
 };
 </script>

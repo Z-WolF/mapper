@@ -2,7 +2,10 @@
     <l-control
         position="topleft"
     >
-        <div class="card" data-bs-theme="dark">
+        <div
+            class="card"
+            data-bs-theme="dark"
+        >
             <div
                 v-show="!collapsed"
                 class="card-header row"
@@ -47,23 +50,18 @@
             >
                 <map-selector
                     v-show="1 < baseLayers.size"
-                    :base-layers="baseLayers"
-                    @change-baselayer="$emit('change-baselayer', $event)"
                 />
-                <category-selector
-                    :selected="selected"
-                    :tree="tree"
-                    :categories="categories"
-                    @toggle-category="$emit('toggle-category', $event)"
-                />
+                <category-selector />
             </div>
         </div>
     </l-control>
 </template>
 
 <script>
+import { mapState } from 'pinia';
 import { LControl } from '@vue-leaflet/vue-leaflet';
 import FontAwesomeIcon from '@/services/fontawesome-services';
+import { useMapStore } from '@/Store/MapStore';
 import MapSelector from '@/components/map-selector.vue';
 import CategorySelector from '@/components/category-selector';
 
@@ -75,28 +73,13 @@ export default {
         LControl,
         FontAwesomeIcon,
     },
-    props: {
-        baseLayers: {
-            type: Map,
-            required: true,
-        },
-        categories: {
-            type: Map,
-            required: true,
-        },
-        tree: {
-            type: Map,
-            required: true,
-        },
-        selected: {
-            type: Set,
-            required: true,
-        },
-    },
     data() {
         return {
             collapsed: false,
         };
+    },
+    computed: {
+        ...mapState(useMapStore, ['baseLayers']),
     },
 };
 </script>

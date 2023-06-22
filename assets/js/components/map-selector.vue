@@ -5,20 +5,28 @@
             :key="id"
             class="col text-center"
         >
-            <button class="btn btn-primary" @click="$emit('change-baselayer', layer.id)">{{ layer.name }}</button>
+            <button
+                :class="['btn', currentLayer.id === id ? 'btn-primary' : 'btn-outline-primary']"
+                @click="changeBaseLayer(layer.id)"
+            >
+                {{ layer.name }}
+            </button>
         </div>
-        <hr>
+        <hr class="mt-3">
     </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia';
+import { useMapStore } from '@/Store/MapStore';
+
 export default {
     name: 'MapSelector',
-    props: {
-        baseLayers: {
-            type: Map,
-            required: true,
-        },
+    computed: {
+        ...mapState(useMapStore, ['baseLayers', 'currentLayer']),
+    },
+    methods: {
+        ...mapActions(useMapStore, ['changeBaseLayer']),
     },
 };
 </script>
